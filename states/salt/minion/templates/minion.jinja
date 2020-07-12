@@ -1,0 +1,26 @@
+id: {{ grains.id|lower }}
+log_level: info
+ipv6: true
+ssl: true
+transport: tcp
+
+# https://github.com/saltstack/salt/blob/b95213ec903402f25c1e0aeb3990fe8452ab63ce/conf/minion#L39-L47
+# str, failover or disable
+master_type: str
+{% if masters is defined %}
+master:
+  {%- for master in masters %}
+- {{ master }}
+  {%- endfor %}
+{%- endif %}
+
+# set the default saltenv for highstate
+# otherwise it tries to run all of them 🤔
+saltenv: base
+# useful for influencing git_pillar and gitfs at the same time
+pillarenv_from_saltenv: true
+
+enable_fqdns_grains: false
+enable_gpu_grains: false
+
+# vim: ft=yaml

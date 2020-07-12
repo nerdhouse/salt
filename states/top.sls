@@ -2,3 +2,4 @@
   '*':
   - users
   - sshd
+  - salt.minion
