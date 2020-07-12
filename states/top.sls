@@ -1,0 +1,4 @@
+{{ saltenv }}:
+  '*':
+  - users
+  - sshd
