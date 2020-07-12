@@ -1,15 +1,23 @@
 {%- set sudo_group = 'sudo' if grains.os|lower == 'debian' else 'wheel' %}
+{%- set admin_groups = [sudo_group] %}
+{%- if grains.init == 'systemd' %}
+  {%- do admin_groups.append('systemd-journal') %}
+{%- endif %}
 
 frebib:
   groups:
-  - {{ sudo_group }}
+{%- for group in admin_groups %}
+  - {{ group }}
+{%- endfor %}
   ssh-keys:
   - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINk+sOUEXKsGqITyMhna9v77ADGagkr3YMpgZFkrvqcd frebib@frebib-PC
   - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBIGxhZPQM/3Ck+DNNM0CoIZTsvKqQLKq8fqQoO6fXzX frebib@frebib-OnePlus3
 
 adam:
   groups:
-  - {{ sudo_group }}
+{%- for group in admin_groups %}
+  - {{ group }}
+{%- endfor %}
   ssh-keys:
   - ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAiF/WxxMOOE/r8I/anF8gKarjNFmeoPuXNMYE0Hwo/NMqbJ9qKVONn+4fa5T99yhhAnYy92PBPxjmSsOqex28XZFh4I4GBGKh+Su1tJKLXsts1rbJmB1gSpKGbbjsiZcta4FqbiLKyUGL1wiV6GWucKdkC9lfTfocmH20tLbqSTryTAfy62oaEyEUSSATcwnl6ITF6BaQVGT8e78O4DpMYvYXFDa0nre0GlBigI0bAIHknmo+5JuL9i6RbnLr/zHMBiT3lnqQ8IO0JLNJD3ML/X/vgo3Htd6ovKe28YBi+LV+olpcFlQGSpNj+gE67UYb+Hw4mMTjzG4RhNHfQZCrNw== adampc
   - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDYo04d3a7J22F0NlAM1MeqmZrbF7iaF9p9whLQmq/gYgZnFKtW7G/rQCUUG5X8yEn5LXkc9SYdRceyaleNDAe0/uEJIbbm+VPgkShV+pyA8AbP4+OF95JKgCS6/B59IStF8GrVnX9krjYLYVwS3FqwvYt/ZkYriX4hkaTkf3FslLU7eEwrDec3RuGXhTDTdLdFyq6wXsI/bITX2C0b8D5obNNkyPJFVV1zshy9mQ5/5wjHYLyZhUSRzcY6xDOlxWmTSHseYG1U5espgba7t6ZaL/n44IrXzFsuXRIA74rx3ESAtCEesM3TaPI/Q8dHOYsCdDquTyccP/nEkDCxxhl3 adam-laptop
