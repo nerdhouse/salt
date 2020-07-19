@@ -4,6 +4,9 @@
   {%- do admin_groups.append('systemd-journal') %}
 {%- endif %}
 
+{# FIXME(frebib): manage Docker group instead of blindly adding it #}
+{%- do admin_groups.append('docker') %}
+
 frebib:
   groups:
 {%- for group in admin_groups %}
