@@ -11,10 +11,10 @@ salt-minion:
 
 restart-salt-minion:
   cmd.run:
-  - name: "sleep 10 && systemctl restart salt-minion --no-block"
+  - name: sleep 10 && systemctl restart salt-minion
   - bg: true
   - order: last
-  - watch:
+  - onchanges:
     - pkg: salt-minion
     - file: /etc/salt/minion
   - require:
@@ -34,6 +34,7 @@ restart-salt-minion:
 
 check-minion-config:
   cmd.run:
-  - name: sudo salt-call --local --skip-grains test.ping
-  - watch:
+  - name: sudo salt-call --local --skip-grains test.true
+  - onchanges:
+    - pkg: salt-minion
     - file: /etc/salt/minion
