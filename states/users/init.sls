@@ -16,4 +16,9 @@
   {%- if user.shell is defined %}
   - shell: {{ user.shell }}
   {%- endif %}
+  ssh_auth.manage:
+  - user: {{ name }}
+  {%- if user['ssh-keys'] is defined %}
+  - ssh_keys: {{ user['ssh-keys']|json }}
+  {%- endif %}
 {%- endfor %}
